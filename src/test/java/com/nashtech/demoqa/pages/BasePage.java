@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,11 +25,7 @@ public class BasePage {
         wait = new WebDriverWait(driver, Duration.ofSeconds(ConfigConstants.TIMEOUT_IN_SECOND));
     }
 
-    public void navigate(String url) {
-        driver.get(ConfigConstants.BASE_URL + url);
-    }
-
-    public Select elementSelect(By locator) {
+    public Select selectElement(By locator) {
         WebElement selectElement = waitForElementToBeClickable(locator);
         Select selectObject = new Select(selectElement);
         return selectObject;
@@ -37,6 +34,11 @@ public class BasePage {
     public void inputText(By locator, String text) {
         WebElement element = waitForElementToBeClickable(locator);
         element.sendKeys(text);
+    }
+
+    public void sendKeysFromKeyBoard(By locator, Keys key ) {
+        WebElement element = waitForElementToBeClickable(locator);
+        element.sendKeys(key);
     }
 
     public void clickElement(By locator) {
