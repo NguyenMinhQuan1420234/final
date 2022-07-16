@@ -24,6 +24,7 @@
     <webdrivermanager.version>5.2.1</webdrivermanager.version>
     <org.seleniumhq.selenium.version>4.3.0</org.seleniumhq.selenium.version>
     <testng.version>7.6.1</testng.version>
+    <gson.version>2.9.0</gson.version>
 
     <!-- JaCoCo thresholds. Increase gradually as you add tests. -->
     <jacoco.unit-tests.limit.instruction-ratio>0%</jacoco.unit-tests.limit.instruction-ratio>
@@ -31,8 +32,15 @@
     <jacoco.unit-tests.limit.class-complexity>20</jacoco.unit-tests.limit.class-complexity>
     <jacoco.unit-tests.limit.method-complexity>5</jacoco.unit-tests.limit.method-complexity>
   </properties>
+
   <dependencies>
-      <dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>${gson.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${org.projectlombok.version}</version>
@@ -112,8 +120,44 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <env.properties>${project.basedir}/src/test/resources/configs/env/dev.properties</env.properties>
+        <test.failure.ignore>true</test.failure.ignore>
+      </properties>
+    </profile>
+  </profiles>
   <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/test/resources/configs/env</directory>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <systemPropertyVariables>
+            <browser>Chrome</browser>
+            <env.properties>${env.properties}</env.properties>
+          </systemPropertyVariables>
+          <suiteXmlFiles>
+            <suiteXmlFiles>
+              src/test/resources/testsuite/test_suite.xml  
+            </suiteXmlFiles>
+          </suiteXmlFiles>
+        </configuration>         
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -164,11 +208,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -238,6 +277,7 @@
         </executions>
       </plugin>
     </plugins>
+    
   </build>
   <reporting>
     <plugins>
