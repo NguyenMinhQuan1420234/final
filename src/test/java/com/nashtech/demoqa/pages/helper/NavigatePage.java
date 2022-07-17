@@ -14,7 +14,7 @@ public class NavigatePage extends BasePage {
     }
     
     public void navigate(String url) throws InterruptedException {
-        Thread.sleep(5000); 
+        Thread.sleep(3000);
         driver.get(System.getProperty("BASE_URL") + url);
     }
 

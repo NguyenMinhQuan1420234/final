@@ -66,6 +66,11 @@ public class BasePage {
         action.perform();
     }
 
+    public boolean isDisplayed(By locator) {
+        WebElement element = waitForElementToBeClickable(locator);
+        return element.isDisplayed();
+    }
+
     public List<WebElement> waitForListOfElementToBeVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
