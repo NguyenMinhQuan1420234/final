@@ -35,7 +35,8 @@ public class RegisterStudentPage extends BasePage {
 
     public void inputDateOfBird(String text) {
         clickElement(RegisterStudentLocators.TXT_DATEOFBIRD);
-        String clickAll = Keys.chord(Keys.CONTROL, "a");
+//        String clickAll = Keys.chord(Keys.CONTROL, "a"); //window
+        String clickAll = Keys.chord(Keys.COMMAND, "a"); //macos
         inputText(RegisterStudentLocators.TXT_DATEOFBIRD, clickAll);
         inputText(RegisterStudentLocators.TXT_DATEOFBIRD, text);
         sendKeysFromKeyBoard(RegisterStudentLocators.TXT_DATEOFBIRD,Keys.ENTER);

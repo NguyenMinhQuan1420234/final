@@ -11,6 +11,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +25,7 @@ public class AddDeleteBookTest extends BaseTest {
     NavigatePage navigatePage;
     AlertHandling alertHandling;
     @BeforeMethod
-    public void Preconditions() throws IOException, InterruptedException {
+    public void Preconditions() throws IOException, InterruptedException, AWTException {
         navigatePage = new NavigatePage(driver);
         loginPage = new LoginPage(driver);
         profilePage = new ProfilePage(driver);
@@ -32,6 +34,7 @@ public class AddDeleteBookTest extends BaseTest {
 
         navigatePage.navigate(UrlConstants.LOGIN_URL);
         loginPage.Login();
+
     }
 
     @Test

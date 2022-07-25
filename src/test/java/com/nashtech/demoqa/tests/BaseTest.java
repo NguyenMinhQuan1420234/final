@@ -1,13 +1,20 @@
 package com.nashtech.demoqa.tests;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Properties;
 
+import java.awt.event.KeyEvent;
+
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
@@ -35,9 +42,12 @@ public class BaseTest {
 
     @BeforeMethod
     @Parameters({"browser"})
-    public void beforeMethod(String browser) throws InterruptedException {
+    public void beforeMethod(String browser) throws InterruptedException, AWTException {
         String browserType = (browser!=null)? browser:System.getProperty("BROWSER_TYPE");
-        WebDriverManager.chromedriver().setup();
+//        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("load-extension=/Users/bibuibanchi/Documents/adblock/cfhdojbkjhnklbpkdaibdccddilifddb");
+//        driver = new ChromeDriver(options);
         switch (browserType) {
             case "IE":
                 WebDriverManager.iedriver().setup();
@@ -50,8 +60,9 @@ public class BaseTest {
                 driver = new EdgeDriver();
             default:
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                driver = new ChromeDriver(options);
         }
+
         driver.manage().window().maximize();
         driver.get(System.getProperty("BASE_URL"));
 
@@ -67,7 +78,7 @@ public class BaseTest {
         // WebDriverManager.chromedriver().setup();
         // ChromeOptions chromeOptions = new ChromeOptions();
         // chromeOptions.addArguments("--incognito");
-  
+
         // try {
         //     driver = new ChromeDriver(chromeOptions);
         // }
